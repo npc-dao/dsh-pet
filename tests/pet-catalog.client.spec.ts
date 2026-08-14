@@ -41,7 +41,7 @@ async function webp(width: number, height: number): Promise<Buffer> {
 function expectOnlyDshPresetAvailable(catalog: Awaited<ReturnType<typeof createPetCatalog>>): void {
   const pets = catalog.list().pets
   expect(pets).toHaveLength(10)
-  expect(pets[0]).toMatchObject({ id: 'dsh', displayName: '阿良', available: true })
+  expect(pets[0]).toMatchObject({ id: 'dsh', displayName: '小深', available: true })
   expect(pets.slice(1).every(pet => pet.kind === 'builtin' && !pet.available)).toBe(true)
 }
 
@@ -194,7 +194,7 @@ describe('PetCatalog', () => {
     const root = await temporaryRoot()
     const catalog = await createPetCatalog({ codexHome: root, platform: 'darwin', env: {} })
     expect(catalog.list().pets).toHaveLength(10)
-    expect(catalog.list().pets[0]).toMatchObject({ id: 'dsh', displayName: '阿良', available: true })
+    expect(catalog.list().pets[0]).toMatchObject({ id: 'dsh', displayName: '小深', available: true })
   })
 
   it('treats a blank archive override as automatic discovery rather than the working directory', async () => {

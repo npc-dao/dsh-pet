@@ -1,7 +1,7 @@
-# 阿良 asset status
+# 小深 asset status
 
 `spritesheet.webp` is not covered by the repository's MIT license.
 
-It is an AI-generated stylization derived from a user-provided photograph of an identifiable person. No public redistribution license is granted for this asset until authorization has been confirmed from both the depicted person and the copyright owner of the source photograph.
+It is an AI-generated whale mascot derived from a user-provided DeepSeek icon. DeepSeek names, logos, and related brand elements remain subject to their owner's trademark and other applicable rights. This notice does not grant rights to use those marks outside this plugin.
 
-Keep the repository private while this notice applies, or replace the asset with an original fictional mascot whose source materials are cleared for redistribution.
+The repository may remain private while redistribution permission is being confirmed. If published, distributors are responsible for confirming that they may redistribute and use the derived brand asset.

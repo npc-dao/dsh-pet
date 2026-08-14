@@ -75,11 +75,11 @@ describe('PetsSection', () => {
     expect(screen.getAllByRole('button', { name: /is unavailable$/ })).toHaveLength(8)
     const presetSection = screen.getByRole('heading', { name: en.presetGroup }).closest('section')!
     expect(within(presetSection).getAllByRole('button').map(button => button.getAttribute('aria-label'))).toEqual([
-      'Select 阿良', 'Selected: Codex', 'Dewey is unavailable', 'Fireball is unavailable',
+      'Select 小深', 'Selected: Codex', 'Dewey is unavailable', 'Fireball is unavailable',
       'Hoots is unavailable', 'Rocky is unavailable', 'Seedy is unavailable', 'Stacky is unavailable',
       'BSOD is unavailable', 'Null Signal is unavailable',
     ])
-    expect(screen.getByRole('button', { name: 'Select 阿良' })).toHaveProperty('disabled', false)
+    expect(screen.getByRole('button', { name: 'Select 小深' })).toHaveProperty('disabled', false)
     expect(screen.getByRole('button', { name: 'Selected: Codex' })).toHaveProperty('disabled', true)
     expect(screen.getByRole('button', { name: 'Dewey is unavailable' })).toHaveProperty('disabled', true)
     expect(screen.getByText(en.noDescription)).toBeTruthy()
@@ -89,7 +89,7 @@ describe('PetsSection', () => {
     expect(screen.getAllByTestId('pet-preview')[2]?.dataset.asset).toBe('/dsh-pet/assets/custom%3Afox?revision=7')
     expect(screen.getAllByTestId('pet-preview')[0]?.dataset.version).toBe('2')
     expect(screen.getAllByTestId('pet-preview')[0]?.dataset.motion).toBe('reduced')
-    fireEvent.click(screen.getByRole('button', { name: 'Select 阿良' }))
+    fireEvent.click(screen.getByRole('button', { name: 'Select 小深' }))
     expect(result.select).toHaveBeenCalledWith('dsh')
     expect(screen.getByText('$CODEX_HOME/pets').tagName).toBe('CODE')
     expect(screen.getByText('~/.codex/pets').tagName).toBe('CODE')

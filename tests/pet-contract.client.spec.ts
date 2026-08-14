@@ -87,10 +87,10 @@ describe('Codex pet contract', () => {
     expect(Object.isFrozen(CODEX_BUILTIN_PETS)).toBe(true)
   })
 
-  it('orders the DSH 阿良 preset before the nine Codex presets', () => {
+  it('orders the DSH 小深 preset before the nine Codex presets', () => {
     expect(DSH_BUILTIN_PET).toEqual({
-      id: 'dsh', kind: 'builtin', displayName: '阿良',
-      description: 'The default DSH companion.', spriteVersionNumber: 2,
+      id: 'dsh', kind: 'builtin', displayName: '小深',
+      description: 'A friendly DeepSeek-blue whale companion for DSH.', spriteVersionNumber: 2,
       assetPath: '/dsh-pet/assets/dsh',
     })
     expect(PET_PRESETS).toEqual([DSH_BUILTIN_PET, ...CODEX_BUILTIN_PETS])

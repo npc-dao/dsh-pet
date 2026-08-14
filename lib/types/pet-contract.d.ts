@@ -66,8 +66,8 @@ export interface BuiltinPetMetadata {
 export declare const DSH_BUILTIN_PET: Readonly<{
     readonly id: "dsh";
     readonly kind: "builtin";
-    readonly displayName: "阿良";
-    readonly description: "The default DSH companion.";
+    readonly displayName: "小深";
+    readonly description: "A friendly DeepSeek-blue whale companion for DSH.";
     readonly spriteVersionNumber: 2;
     readonly assetPath: string;
 }>;
@@ -140,8 +140,8 @@ export declare const CODEX_BUILTIN_PETS: readonly [{
 export declare const PET_PRESETS: readonly [Readonly<{
     readonly id: "dsh";
     readonly kind: "builtin";
-    readonly displayName: "阿良";
-    readonly description: "The default DSH companion.";
+    readonly displayName: "小深";
+    readonly description: "A friendly DeepSeek-blue whale companion for DSH.";
     readonly spriteVersionNumber: 2;
     readonly assetPath: string;
 }>, {

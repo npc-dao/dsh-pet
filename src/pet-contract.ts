@@ -97,8 +97,8 @@ export interface BuiltinPetMetadata {
 export const DSH_BUILTIN_PET = Object.freeze({
   id: 'dsh',
   kind: 'builtin',
-  displayName: '阿良',
-  description: 'The default DSH companion.',
+  displayName: '小深',
+  description: 'A friendly DeepSeek-blue whale companion for DSH.',
   spriteVersionNumber: 2,
   assetPath: petAssetPath('dsh'),
 } as const satisfies BuiltinPetMetadata)
