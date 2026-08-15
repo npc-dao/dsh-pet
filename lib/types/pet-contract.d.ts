@@ -71,6 +71,15 @@ export declare const DSH_BUILTIN_PET: Readonly<{
     readonly spriteVersionNumber: 2;
     readonly assetPath: string;
 }>;
+/** DSH's bundled portrait pet, selectable without changing the default. */
+export declare const ALIANG_BUILTIN_PET: Readonly<{
+    readonly id: "aliang";
+    readonly kind: "builtin";
+    readonly displayName: "阿良";
+    readonly description: "The original DSH companion.";
+    readonly spriteVersionNumber: 2;
+    readonly assetPath: string;
+}>;
 /** The nine pet identities shipped by Codex, without their binary atlases. */
 export declare const CODEX_BUILTIN_PETS: readonly [{
     readonly id: "codex";
@@ -136,12 +145,19 @@ export declare const CODEX_BUILTIN_PETS: readonly [{
     readonly spriteVersionNumber: 2;
     readonly assetPath: string;
 }];
-/** Built-in picker order: DSH's bundled default, then Codex-discovered presets. */
+/** Built-in picker order: DSH's default, its optional portrait, then Codex presets. */
 export declare const PET_PRESETS: readonly [Readonly<{
     readonly id: "dsh";
     readonly kind: "builtin";
     readonly displayName: "小深";
     readonly description: "A friendly DeepSeek-blue whale companion for DSH.";
+    readonly spriteVersionNumber: 2;
+    readonly assetPath: string;
+}>, Readonly<{
+    readonly id: "aliang";
+    readonly kind: "builtin";
+    readonly displayName: "阿良";
+    readonly description: "The original DSH companion.";
     readonly spriteVersionNumber: 2;
     readonly assetPath: string;
 }>, {
@@ -212,7 +228,7 @@ export declare const PET_PRESETS: readonly [Readonly<{
 export type BuiltinPetId = typeof PET_PRESETS[number]['id'];
 /** Immutable Host catalog generation consumed by the browser controller. */
 export interface PetCatalogSnapshot {
-    /** DSH and Codex presets followed by discovered custom pets. */
+    /** Package-owned and Codex presets followed by discovered custom pets. */
     readonly pets: readonly PetDescriptor[];
     /** Monotonic in-process scan revision. */
     readonly revision: number;

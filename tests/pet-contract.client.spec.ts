@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import {
+  ALIANG_BUILTIN_PET,
   CODEX_BUILTIN_PETS,
   CODEX_PET_ATLASES,
   CODEX_PET_ATLAS_V1,
@@ -87,15 +88,20 @@ describe('Codex pet contract', () => {
     expect(Object.isFrozen(CODEX_BUILTIN_PETS)).toBe(true)
   })
 
-  it('orders the DSH 小深 preset before the nine Codex presets', () => {
+  it('keeps 小深 first and 阿良 selectable before the nine Codex presets', () => {
     expect(DSH_BUILTIN_PET).toEqual({
       id: 'dsh', kind: 'builtin', displayName: '小深',
       description: 'A friendly DeepSeek-blue whale companion for DSH.', spriteVersionNumber: 2,
       assetPath: '/dsh-pet/assets/dsh',
     })
-    expect(PET_PRESETS).toEqual([DSH_BUILTIN_PET, ...CODEX_BUILTIN_PETS])
+    expect(ALIANG_BUILTIN_PET).toEqual({
+      id: 'aliang', kind: 'builtin', displayName: '阿良',
+      description: 'The original DSH companion.', spriteVersionNumber: 2,
+      assetPath: '/dsh-pet/assets/aliang',
+    })
+    expect(PET_PRESETS).toEqual([DSH_BUILTIN_PET, ALIANG_BUILTIN_PET, ...CODEX_BUILTIN_PETS])
     expect(PET_PRESETS.map(pet => pet.id)).toEqual([
-      'dsh', 'codex', 'dewey', 'fireball', 'hoots', 'rocky', 'seedy', 'stacky', 'bsod', 'null-signal',
+      'dsh', 'aliang', 'codex', 'dewey', 'fireball', 'hoots', 'rocky', 'seedy', 'stacky', 'bsod', 'null-signal',
     ])
     expect(Object.isFrozen(PET_PRESETS)).toBe(true)
   })

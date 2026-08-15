@@ -103,6 +103,16 @@ export const DSH_BUILTIN_PET = Object.freeze({
   assetPath: petAssetPath('dsh'),
 } as const satisfies BuiltinPetMetadata)
 
+/** DSH's bundled portrait pet, selectable without changing the default. */
+export const ALIANG_BUILTIN_PET = Object.freeze({
+  id: 'aliang',
+  kind: 'builtin',
+  displayName: '阿良',
+  description: 'The original DSH companion.',
+  spriteVersionNumber: 2,
+  assetPath: petAssetPath('aliang'),
+} as const satisfies BuiltinPetMetadata)
+
 /** The nine pet identities shipped by Codex, without their binary atlases. */
 export const CODEX_BUILTIN_PETS = Object.freeze([
   {
@@ -152,9 +162,10 @@ export const CODEX_BUILTIN_PETS = Object.freeze([
   },
 ] as const satisfies readonly BuiltinPetMetadata[])
 
-/** Built-in picker order: DSH's bundled default, then Codex-discovered presets. */
+/** Built-in picker order: DSH's default, its optional portrait, then Codex presets. */
 export const PET_PRESETS = Object.freeze([
   DSH_BUILTIN_PET,
+  ALIANG_BUILTIN_PET,
   ...CODEX_BUILTIN_PETS,
 ] as const satisfies readonly BuiltinPetMetadata[])
 
@@ -163,7 +174,7 @@ export type BuiltinPetId = typeof PET_PRESETS[number]['id']
 
 /** Immutable Host catalog generation consumed by the browser controller. */
 export interface PetCatalogSnapshot {
-  /** DSH and Codex presets followed by discovered custom pets. */
+  /** Package-owned and Codex presets followed by discovered custom pets. */
   readonly pets: readonly PetDescriptor[]
   /** Monotonic in-process scan revision. */
   readonly revision: number

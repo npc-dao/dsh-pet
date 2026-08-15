@@ -14,6 +14,7 @@ import {
 } from './pet-settings.ts'
 
 export {
+  ALIANG_BUILTIN_PET,
   CODEX_BUILTIN_PETS,
   CODEX_PET_ATLASES,
   CODEX_PET_ATLAS_V1,

@@ -1,6 +1,6 @@
 /** Host catalog combining the package-owned DSH default with Codex-compatible imports. */
 import { type PetImageContentType } from './codex-format.ts';
-import { type PetCatalogSnapshot } from './pet-contract.ts';
+import { type PetCatalogSnapshot, type PetSpriteVersion } from './pet-contract.ts';
 /** Host bytes returned for one opaque catalog id. */
 export interface PetCatalogAsset {
     /** Complete validated atlas bytes. */
@@ -22,11 +22,12 @@ export interface PetCatalogOptions {
     readonly platform?: NodeJS.Platform;
 }
 /**
- * Read and validate the package-owned DSH atlas.
+ * Read and validate one package-owned atlas.
  * @param source - package asset URL resolved relative to the active runtime bundle.
+ * @param spriteVersionNumber - atlas layout expected for the bundled pet.
  * @returns immutable-generation bytes, media type, and strong digest.
  */
-export declare function readBundledPetAsset(source: URL): Promise<PetCatalogAsset>;
+export declare function readBundledPetAsset(source: URL, spriteVersionNumber: PetSpriteVersion): Promise<PetCatalogAsset>;
 /**
  * Resolve the Codex home with Codex Desktop's environment precedence.
  * @param configured - explicit catalog override.

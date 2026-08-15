@@ -38,11 +38,12 @@ async function webp(width: number, height: number): Promise<Buffer> {
   }).webp({ lossless: true }).toBuffer()
 }
 
-function expectOnlyDshPresetAvailable(catalog: Awaited<ReturnType<typeof createPetCatalog>>): void {
+function expectOnlyPackagePresetsAvailable(catalog: Awaited<ReturnType<typeof createPetCatalog>>): void {
   const pets = catalog.list().pets
-  expect(pets).toHaveLength(10)
+  expect(pets).toHaveLength(11)
   expect(pets[0]).toMatchObject({ id: 'dsh', displayName: '小深', available: true })
-  expect(pets.slice(1).every(pet => pet.kind === 'builtin' && !pet.available)).toBe(true)
+  expect(pets[1]).toMatchObject({ id: 'aliang', displayName: '阿良', available: true })
+  expect(pets.slice(2).every(pet => pet.kind === 'builtin' && !pet.available)).toBe(true)
 }
 
 function asarAssets(assets: Readonly<Record<string, Buffer>>): Buffer {
@@ -82,12 +83,13 @@ describe('PetCatalog', () => {
     expect(resolveCodexHome('~/pets-home', {})).toBe(join(homedir(), 'pets-home'))
   })
 
-  it('initializes the bundled DSH pet before nine unavailable Codex presets', async () => {
+  it('initializes both package pets before nine unavailable Codex presets', async () => {
     const root = await temporaryRoot()
     const catalog = await createPetCatalog({ codexHome: root, platform: 'linux' })
     expect(catalog.list().revision).toBe(1)
-    expectOnlyDshPresetAvailable(catalog)
+    expectOnlyPackagePresetsAvailable(catalog)
     expect(await catalog.getAsset('dsh')).toMatchObject({ contentType: 'image/webp' })
+    expect(await catalog.getAsset('aliang')).toMatchObject({ contentType: 'image/webp' })
     expect(await catalog.getAsset('codex')).toBeUndefined()
     expect(await catalog.getAsset('unknown')).toBeUndefined()
   })
@@ -109,7 +111,7 @@ describe('PetCatalog', () => {
       env: { CODEX_HOME: join(root, 'missing') },
       platform: 'linux',
     })
-    expectOnlyDshPresetAvailable(catalog)
+    expectOnlyPackagePresetsAvailable(catalog)
   })
 
   it('discovers, serves, and refreshes custom packages atomically', async () => {
@@ -179,28 +181,29 @@ describe('PetCatalog', () => {
       platform: 'win32',
       env: { LOCALAPPDATA: localAppData },
     })
-    expectOnlyDshPresetAvailable(catalog)
+    expectOnlyPackagePresetsAvailable(catalog)
   })
 
   it('supports platforms without an automatic archive candidate', async () => {
     const root = await temporaryRoot()
     const windows = await createPetCatalog({ codexHome: root, platform: 'win32', env: {} })
-    expectOnlyDshPresetAvailable(windows)
+    expectOnlyPackagePresetsAvailable(windows)
     const linux = await createPetCatalog({ codexHome: root, platform: 'linux', env: {} })
-    expectOnlyDshPresetAvailable(linux)
+    expectOnlyPackagePresetsAvailable(linux)
   })
 
   it('uses the conventional macOS archive candidate without requiring it to exist', async () => {
     const root = await temporaryRoot()
     const catalog = await createPetCatalog({ codexHome: root, platform: 'darwin', env: {} })
-    expect(catalog.list().pets).toHaveLength(10)
+    expect(catalog.list().pets).toHaveLength(11)
     expect(catalog.list().pets[0]).toMatchObject({ id: 'dsh', displayName: '小深', available: true })
+    expect(catalog.list().pets[1]).toMatchObject({ id: 'aliang', displayName: '阿良', available: true })
   })
 
   it('treats a blank archive override as automatic discovery rather than the working directory', async () => {
     const root = await temporaryRoot()
     const catalog = await createPetCatalog({ codexHome: root, appAsarPath: ' ', platform: 'linux' })
-    expectOnlyDshPresetAvailable(catalog)
+    expectOnlyPackagePresetsAvailable(catalog)
   })
 })
 
@@ -209,7 +212,7 @@ describe('readBundledPetAsset', () => {
     const root = await temporaryRoot()
     const path = join(root, 'pet.webp')
     await writeFile(path, await webp(1536, 2288))
-    const asset = await readBundledPetAsset(pathToFileURL(path))
+    const asset = await readBundledPetAsset(pathToFileURL(path), 2)
     expect(asset.contentType).toBe('image/webp')
     expect(asset.body).toEqual(await webp(1536, 2288))
     expect(asset.sha256).toMatch(/^[\da-f]{64}$/)
@@ -217,13 +220,13 @@ describe('readBundledPetAsset', () => {
 
   it('rejects missing, oversized, and non-WebP package assets', async () => {
     const root = await temporaryRoot()
-    await expect(readBundledPetAsset(pathToFileURL(join(root, 'missing.webp'))))
+    await expect(readBundledPetAsset(pathToFileURL(join(root, 'missing.webp')), 2))
       .rejects.toMatchObject({ code: 'ENOENT' })
     const oversized = join(root, 'oversized.webp')
     await writeFile(oversized, Buffer.alloc(20 * 1024 * 1024 + 1))
-    await expect(readBundledPetAsset(pathToFileURL(oversized))).rejects.toThrow('size limit')
+    await expect(readBundledPetAsset(pathToFileURL(oversized), 2)).rejects.toThrow('size limit')
     const wrongType = join(root, 'pet.png')
     await writeFile(wrongType, await png(1536, 2288))
-    await expect(readBundledPetAsset(pathToFileURL(wrongType))).rejects.toThrow('must be WebP')
+    await expect(readBundledPetAsset(pathToFileURL(wrongType), 2)).rejects.toThrow('must be WebP')
   })
 })

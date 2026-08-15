@@ -7,7 +7,7 @@ export interface PetCatalogState {
     status: 'idle' | 'loading' | 'ready' | 'error';
     /** Host catalog revision, zero before the first accepted response. */
     revision: number;
-    /** DSH and Codex presets first, followed by compatible local custom pets. */
+    /** Package-owned and Codex presets first, followed by compatible local custom pets. */
     pets: readonly PetDescriptor[];
     /** Transport or validation failure text, otherwise null. */
     error: string | null;

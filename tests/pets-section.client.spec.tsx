@@ -19,7 +19,14 @@ vi.mock('../src/client/PetSprite.tsx', () => ({
 
 import { PetsSection } from '../src/client/PetsSection.tsx'
 import type { PetsSectionProps } from '../src/client/PetsSection.tsx'
-import { CODEX_BUILTIN_PETS, DSH_BUILTIN_PET, PET_PRESETS, type PetCatalogSnapshot, type PetDescriptor } from '../src/pet-contract.ts'
+import {
+  ALIANG_BUILTIN_PET,
+  CODEX_BUILTIN_PETS,
+  DSH_BUILTIN_PET,
+  PET_PRESETS,
+  type PetCatalogSnapshot,
+  type PetDescriptor,
+} from '../src/pet-contract.ts'
 import { en } from '../src/client/locales.ts'
 
 afterEach(cleanup)
@@ -42,7 +49,7 @@ const CUSTOM: PetDescriptor = {
 function mount(options: Partial<PetsSectionProps> = {}) {
   const catalog: PetCatalogSnapshot = options.catalog ?? {
     revision: 7,
-    pets: [CUSTOM, available(CODEX_BUILTIN_PETS[0]), available(DSH_BUILTIN_PET)],
+    pets: [CUSTOM, available(CODEX_BUILTIN_PETS[0]), available(ALIANG_BUILTIN_PET), available(DSH_BUILTIN_PET)],
   }
   const actions = {
     refresh: vi.fn(),
@@ -67,7 +74,7 @@ function mount(options: Partial<PetsSectionProps> = {}) {
 }
 
 describe('PetsSection', () => {
-  it('shows ten presets plus custom pets, import guidance, and availability', () => {
+  it('shows eleven presets plus custom pets, import guidance, and availability', () => {
     const result = mount()
 
     expect(screen.getByRole('heading', { name: en.presetGroup })).toBeTruthy()
@@ -75,22 +82,26 @@ describe('PetsSection', () => {
     expect(screen.getAllByRole('button', { name: /is unavailable$/ })).toHaveLength(8)
     const presetSection = screen.getByRole('heading', { name: en.presetGroup }).closest('section')!
     expect(within(presetSection).getAllByRole('button').map(button => button.getAttribute('aria-label'))).toEqual([
-      'Select 小深', 'Selected: Codex', 'Dewey is unavailable', 'Fireball is unavailable',
+      'Select 小深', 'Select 阿良', 'Selected: Codex', 'Dewey is unavailable', 'Fireball is unavailable',
       'Hoots is unavailable', 'Rocky is unavailable', 'Seedy is unavailable', 'Stacky is unavailable',
       'BSOD is unavailable', 'Null Signal is unavailable',
     ])
     expect(screen.getByRole('button', { name: 'Select 小深' })).toHaveProperty('disabled', false)
+    expect(screen.getByRole('button', { name: 'Select 阿良' })).toHaveProperty('disabled', false)
     expect(screen.getByRole('button', { name: 'Selected: Codex' })).toHaveProperty('disabled', true)
     expect(screen.getByRole('button', { name: 'Dewey is unavailable' })).toHaveProperty('disabled', true)
     expect(screen.getByText(en.noDescription)).toBeTruthy()
-    expect(screen.getAllByTestId('pet-preview')).toHaveLength(3)
+    expect(screen.getAllByTestId('pet-preview')).toHaveLength(4)
     expect(screen.getAllByTestId('pet-preview')[0]?.dataset.asset).toBe('/dsh-pet/assets/dsh?revision=7')
-    expect(screen.getAllByTestId('pet-preview')[1]?.dataset.asset).toBe('/dsh-pet/assets/codex?revision=7')
-    expect(screen.getAllByTestId('pet-preview')[2]?.dataset.asset).toBe('/dsh-pet/assets/custom%3Afox?revision=7')
+    expect(screen.getAllByTestId('pet-preview')[1]?.dataset.asset).toBe('/dsh-pet/assets/aliang?revision=7')
+    expect(screen.getAllByTestId('pet-preview')[2]?.dataset.asset).toBe('/dsh-pet/assets/codex?revision=7')
+    expect(screen.getAllByTestId('pet-preview')[3]?.dataset.asset).toBe('/dsh-pet/assets/custom%3Afox?revision=7')
     expect(screen.getAllByTestId('pet-preview')[0]?.dataset.version).toBe('2')
     expect(screen.getAllByTestId('pet-preview')[0]?.dataset.motion).toBe('reduced')
     fireEvent.click(screen.getByRole('button', { name: 'Select 小深' }))
     expect(result.select).toHaveBeenCalledWith('dsh')
+    fireEvent.click(screen.getByRole('button', { name: 'Select 阿良' }))
+    expect(result.select).toHaveBeenCalledWith('aliang')
     expect(screen.getByText('$CODEX_HOME/pets').tagName).toBe('CODE')
     expect(screen.getByText('~/.codex/pets').tagName).toBe('CODE')
     expect(result.container.firstElementChild?.getAttribute('data-catalog-revision')).toBe('7')

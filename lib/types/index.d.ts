@@ -1,7 +1,7 @@
 /** Host registration for the DSH pet catalog, Codex-compatible imports, and Web asset routes. */
 import type { Context } from '@deepseek-ai/cordis';
 import z from '@deepseek-ai/schemastery';
-export { CODEX_BUILTIN_PETS, CODEX_PET_ATLASES, CODEX_PET_ATLAS_V1, CODEX_PET_ATLAS_V2, DSH_BUILTIN_PET, PET_PRESETS, type BuiltinPetId, type PetCatalogSnapshot, type PetDescriptor, type PetSpriteVersion, type PetState, } from './pet-contract.ts';
+export { ALIANG_BUILTIN_PET, CODEX_BUILTIN_PETS, CODEX_PET_ATLASES, CODEX_PET_ATLAS_V1, CODEX_PET_ATLAS_V2, DSH_BUILTIN_PET, PET_PRESETS, type BuiltinPetId, type PetCatalogSnapshot, type PetDescriptor, type PetSpriteVersion, type PetState, } from './pet-contract.ts';
 export { PET_ASSET_PREFIX, PET_CATALOG_ENDPOINT, PET_HTTP_PREFIX, PET_REFRESH_ENDPOINT, petAssetPath, petAssetUrl, } from './pet-endpoints.ts';
 export { DEFAULT_PET_SETTINGS, DEFAULT_PET_SIZE, MAX_PET_SIZE, MIN_PET_SIZE, PET_SETTINGS_NAMESPACE, type PetSettings, } from './pet-settings.ts';
 /** Stable Cordis plugin name. */

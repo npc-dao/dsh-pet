@@ -21,11 +21,13 @@ import {
   type PetImageContentType,
 } from './codex-format.ts'
 import {
+  ALIANG_BUILTIN_PET,
   CODEX_BUILTIN_PETS,
   DSH_BUILTIN_PET,
   PET_PRESETS,
   type PetCatalogSnapshot,
   type PetDescriptor,
+  type PetSpriteVersion,
 } from './pet-contract.ts'
 import { petAssetPath } from './pet-endpoints.ts'
 
@@ -57,19 +59,26 @@ interface CatalogGeneration {
   readonly builtinAssets: ReadonlyMap<string, PetCatalogAsset>
 }
 
-const DSH_BUILTIN_ASSET_URL = new URL('../assets/dsh/spritesheet.webp', import.meta.url)
-let dshBuiltinAssetPromise: Promise<PetCatalogAsset> | undefined
+const BUNDLED_PET_SOURCES = Object.freeze([
+  { metadata: DSH_BUILTIN_PET, source: new URL('../assets/dsh/spritesheet.webp', import.meta.url) },
+  { metadata: ALIANG_BUILTIN_PET, source: new URL('../assets/aliang/spritesheet.webp', import.meta.url) },
+])
+let bundledPetAssetsPromise: Promise<ReadonlyMap<string, PetCatalogAsset>> | undefined
 
 /**
- * Read and validate the package-owned DSH atlas.
+ * Read and validate one package-owned atlas.
  * @param source - package asset URL resolved relative to the active runtime bundle.
+ * @param spriteVersionNumber - atlas layout expected for the bundled pet.
  * @returns immutable-generation bytes, media type, and strong digest.
  */
-export async function readBundledPetAsset(source: URL): Promise<PetCatalogAsset> {
+export async function readBundledPetAsset(
+  source: URL,
+  spriteVersionNumber: PetSpriteVersion,
+): Promise<PetCatalogAsset> {
   const body = await readFile(source)
-  if (body.byteLength > MAX_PET_ASSET_BYTES) throw new Error('bundled DSH pet atlas exceeds the size limit')
-  const contentType = await validatePetImage(body, DSH_BUILTIN_PET.spriteVersionNumber)
-  if (contentType !== 'image/webp') throw new Error('bundled DSH pet atlas must be WebP')
+  if (body.byteLength > MAX_PET_ASSET_BYTES) throw new Error('bundled pet atlas exceeds the size limit')
+  const contentType = await validatePetImage(body, spriteVersionNumber)
+  if (contentType !== 'image/webp') throw new Error('bundled pet atlas must be WebP')
   return {
     body,
     contentType,
@@ -77,9 +86,12 @@ export async function readBundledPetAsset(source: URL): Promise<PetCatalogAsset>
   }
 }
 
-function loadDshBuiltinAsset(): Promise<PetCatalogAsset> {
-  dshBuiltinAssetPromise ??= readBundledPetAsset(DSH_BUILTIN_ASSET_URL)
-  return dshBuiltinAssetPromise
+function loadBundledPetAssets(): Promise<ReadonlyMap<string, PetCatalogAsset>> {
+  bundledPetAssetsPromise ??= Promise.all(BUNDLED_PET_SOURCES.map(async ({ metadata, source }) => [
+    metadata.id,
+    await readBundledPetAsset(source, metadata.spriteVersionNumber),
+  ] as const)).then(entries => new Map(entries))
+  return bundledPetAssetsPromise
 }
 
 function freezeSnapshot(pets: readonly PetDescriptor[], revision: number): PetCatalogSnapshot {
@@ -193,14 +205,14 @@ export class PetCatalog {
       const details = await stat(codexHome)
       if (!details.isDirectory()) throw new Error('configured Codex home is not a directory')
     }
-    const [dshBuiltinAsset, customPets, discoveredBuiltins] = await Promise.all([
-      loadDshBuiltinAsset(),
+    const [bundledPetAssets, customPets, discoveredBuiltins] = await Promise.all([
+      loadBundledPetAssets(),
       scanCodexPets(codexHome),
       discoverBuiltins(this.options.appAsarPath, this.options.platform ?? process.platform, env),
     ])
     const codexBuiltinAssets = await validatedBuiltins(discoveredBuiltins)
     const builtinAssets = new Map<string, PetCatalogAsset>([
-      [DSH_BUILTIN_PET.id, dshBuiltinAsset],
+      ...bundledPetAssets,
       ...codexBuiltinAssets,
     ])
     const customAssets = new Map(customPets.map(pet => [pet.id, pet]))
