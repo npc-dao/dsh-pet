@@ -1,27 +1,27 @@
 # @deepseek-ai/dsh-pet
 
-English | [中文](README.zh.md)
+中文 | [English](README.en.md)
 
-> This repository is currently private. The source code is MIT-licensed, while the bundled 小深 whale asset has separate brand-derived asset terms. See [Asset status](assets/dsh/ASSET-LICENSE.md) and [Notices](NOTICE.md).
+> 当前仓库保持私有。源代码采用 MIT 许可证；内置的小深鲸鱼资产适用单独的品牌衍生资产条款。参见[资产状态](assets/dsh/ASSET-LICENSE.md)和[声明](NOTICE.md)。
 
-Pets inside the DSH Web frame. The package ships the version-2 **小深** DeepSeek-blue whale atlas as the always-available DSH default, discovers locally installed Codex-compatible atlases, serves one opaque Host catalog, renders the selected atlas in a draggable browser overlay, and contributes the **Pets** settings section. It has no pet creator, image generator, upload control, or remote-URL installer.
+在 DSH Web 框架内显示宠物。该包自带始终可用的版本 2 **小深** DeepSeek 蓝鲸图集，发现本机已安装的兼容 Codex 图集，提供一份不透明 Host 目录，在可拖动的浏览器浮层中渲染所选图集，并贡献**宠物**设置分区。该包不包含宠物创建器、图像生成器、上传控件或远程 URL 安装器。
 
-## Usage
+## 使用
 
-The Web application bundle loads this package as one Cordis plugin. 小深 works without Codex Desktop. Open **Settings → Pets** to enable or hide the overlay, select another available preset or imported pet, choose a width from 80 to 224 CSS pixels, or refresh the catalog after changing files under the Codex home. The overlay stays inside the browser viewport; pointer dragging and arrow keys reposition it for the current page.
+Web 应用组合包将该包作为一个 Cordis 插件加载。小深无需 Codex Desktop 即可使用。打开**设置 → 宠物**即可启用或隐藏浮层、选择其他可用预设或导入宠物、在 80 到 224 个 CSS 像素之间设置宽度，或在修改 Codex home 下的文件后刷新目录。浮层始终位于浏览器视口内；当前页面可用指针拖动或方向键调整其位置。
 
-The pet projects DSH activity onto Codex atlas rows for idle, running, waiting for user input, selected-session failure, and completed output awaiting review. Hover and drag use the compatible jump and directional-running rows. Reduced-motion browsers hold one frame instead of cycling the atlas.
+宠物把 DSH 活动映射到 Codex 图集中的空闲、运行、等待用户输入、所选会话失败和已完成输出待查看等行。悬停和拖动使用兼容的跳跃与左右奔跑行。浏览器要求减少动态效果时，宠物会停在一帧，而不循环播放图集。
 
-## Configuration
+## 配置
 
-The Cordis plugin accepts two Host resource-discovery keys:
+该 Cordis 插件接受两个 Host 资源发现配置键：
 
-| Key | Default | Behavior |
+| 配置键 | 默认值 | 行为 |
 |---|---|---|
-| `codexHome` | `$CODEX_HOME`, then `~/.codex` | Directory containing modern `pets/` and legacy `avatars/` packages. `~` is expanded by the Host. An explicitly configured missing path or non-directory fails plugin startup. |
-| `appAsarPath` | Platform discovery | Explicit Codex Desktop `app.asar` used for built-in atlases. An explicitly configured unreadable or malformed archive fails plugin startup instead of hiding the configuration error. |
+| `codexHome` | `$CODEX_HOME`，随后为 `~/.codex` | 包含现代 `pets/` 与旧版 `avatars/` 宠物包的目录。Host 会展开 `~`。显式配置的路径不存在或不是目录时，插件启动会失败。 |
+| `appAsarPath` | 按平台发现 | 指向 Codex Desktop `app.asar` 的显式路径，用于读取内置图集。显式配置的归档不可读或格式错误时，插件启动会失败，而不是隐藏配置错误。 |
 
-Platform discovery checks `/Applications/ChatGPT.app/Contents/Resources/app.asar` on macOS and `%LOCALAPPDATA%\Programs\ChatGPT\resources\app.asar` on Windows. Other platforms need `appAsarPath` for Codex presets, but 小深 and custom Codex-home packages remain available without it.
+按平台发现时，macOS 检查 `/Applications/ChatGPT.app/Contents/Resources/app.asar`，Windows 检查 `%LOCALAPPDATA%\Programs\ChatGPT\resources\app.asar`。其他平台需要用 `appAsarPath` 启用 Codex 预设，但没有该配置也仍可使用小深和 Codex home 中的自定义宠物包。
 
 ```yaml
 - id: dsh-pet
@@ -30,48 +30,48 @@ Platform discovery checks `/Applications/ChatGPT.app/Contents/Resources/app.asar
     appAsarPath: /Applications/ChatGPT.app/Contents/Resources/app.asar
 ```
 
-The `dsh-pet` settings namespace stores browser preferences independently of those Host paths:
+`dsh-pet` settings namespace 独立于这些 Host 路径存储浏览器偏好：
 
-| Setting | Default | Behavior |
+| 设置项 | 默认值 | 行为 |
 |---|---|---|
-| `enabled` | `true` | Shows or hides the Web-frame overlay. |
-| `selectedId` | `dsh` | Selects the bundled DSH id, a Codex preset id, or the opaque `custom:<directory>` id assigned during discovery. |
-| `size` | `112` | Sprite width in CSS pixels, validated from 80 through 224. |
+| `enabled` | `true` | 显示或隐藏 Web 框架内浮层。 |
+| `selectedId` | `dsh` | 选择内置 DSH id、Codex 预设 id，或发现时分配的不透明 `custom:<directory>` id。 |
+| `size` | `112` | 以 CSS 像素表示的精灵宽度，校验范围为 80 到 224。 |
 
-The normal local settings provider persists these fields in `$DSH_HOME/settings.yaml`. Loopback browsers may write them through the Host settings API and read the local pet catalog; remote browser authorities receive `403` from the pet catalog and asset routes because those responses project Host-local files.
+常规本地 settings 提供方把这些字段持久化到 `$DSH_HOME/settings.yaml`。回环浏览器可通过 Host settings API 写入这些值并读取本机宠物目录；远程浏览器的 authority 会从宠物目录与资源路由收到 `403`，因为这些响应投影了 Host 本机文件。
 
-## Import Format
+## 导入格式
 
-Import is discovery, not copying. Refresh scans `$CODEX_HOME/pets/<directory>/pet.json` and the legacy `$CODEX_HOME/avatars/<directory>/avatar.json`; a modern `pets/` package wins when both roots contain the same directory name. Runtime identity is always `custom:<directory>`, so a manifest cannot replace a built-in id.
+导入指发现，不会复制文件。刷新时会扫描 `$CODEX_HOME/pets/<directory>/pet.json` 和旧版 `$CODEX_HOME/avatars/<directory>/avatar.json`；两个根目录存在相同目录名时，现代 `pets/` 宠物包优先。运行时身份始终为 `custom:<directory>`，因此 manifest 无法替换内置 id。
 
-The manifest accepts `id`, `displayName`, nullable `description`, `spriteVersionNumber`, and `spritesheetPath`. `spriteVersionNumber` defaults to `1`, while `spritesheetPath` defaults to `spritesheet.webp`. Display names fall back from `displayName` to `id` to the directory name. Unknown fields are ignored. A manifest may contain at most 64 KiB.
+manifest 接受 `id`、`displayName`、可为空的 `description`、`spriteVersionNumber` 和 `spritesheetPath`。`spriteVersionNumber` 默认为 `1`，`spritesheetPath` 默认为 `spritesheet.webp`。显示名称依次回退到 `displayName`、`id` 与目录名。未知字段会被忽略。manifest 最大为 64 KiB。
 
-Version 1 atlases are 1536×1872 pixels; version 2 atlases are 1536×2288 pixels. Both use 192×208 cells in eight columns and may be static PNG or WebP up to 20 MiB; animated PNG and WebP files are rejected. The Host fully decodes the raster before admitting it. The atlas path must stay inside its pet directory, including after symbolic-link resolution. A malformed, unreadable, oversized, escaping, truncated, or dimensionally incompatible package is omitted without hiding valid siblings.
+版本 1 图集为 1536×1872 像素；版本 2 图集为 1536×2288 像素。两者都使用八列 192×208 单元格，可采用最大 20 MiB 的静态 PNG 或 WebP；动画 PNG 与 WebP 会被拒绝。Host 只有在完整解码图像后才会接纳它。图集路径在符号链接解析前后都必须留在自己的宠物目录内。格式错误、不可读、过大、逃逸目录、截断或尺寸不兼容的宠物包会被省略，不会遮蔽有效的相邻宠物包。
 
-The preset catalog starts with the package-owned 小深 version-2 WebP, generated from a user-provided DeepSeek icon, then lists the nine Codex identities: Codex, Dewey, Fireball, Hoots, Rocky, Seedy, Stacky, BSOD, and Null Signal. This repository stores the 小深 atlas, but only the ids, labels, and version-2 layout metadata for Codex presets. At runtime the Host locates Codex's hashed atlases in the user's locally installed Codex Desktop `app.asar`; this package does not copy, vendor, or redistribute those OpenAI binary assets. If no compatible local application archive is available, 小深 remains available while the nine Codex rows are unavailable. A successful refresh retains validated compressed preset atlases for that catalog generation, avoiding another full decode for each browser image request; the next refresh reads the Codex archive again.
+预设目录首先列出该包自带的版本 2 小深 WebP，该资产根据用户提供的 DeepSeek 图标生成；随后列出九个 Codex 宠物身份：Codex、Dewey、Fireball、Hoots、Rocky、Seedy、Stacky、BSOD 和 Null Signal。该仓库存储小深图集，但对 Codex 预设只存储 id、标签和版本 2 布局元数据。Host 在运行时从用户本机已安装的 Codex Desktop `app.asar` 中定位 Codex 带哈希名的图集；该包不会复制、vendor 或重新分发这些 OpenAI 二进制资源。没有可兼容的本机应用归档时，小深仍然可用，九个 Codex 条目则不可用。刷新成功后，本次目录 generation 会保留已校验的预设压缩图集，避免每个浏览器图像请求再次完整解码；下次刷新会重新读取 Codex 归档。
 
-The browser reads the resources through loopback same-origin HTTP: `GET /dsh-pet/catalog`, `POST /dsh-pet/refresh`, and `GET` or `HEAD /dsh-pet/assets/<opaque-id>`. Every request passes Connection's Host, Origin, and Fetch-Metadata trust check before reaching the catalog. Responses expose catalog metadata and image bytes, never Codex-home filesystem paths or ASAR member names. Initial discovery and route registration finish before the Host plugin reports successful activation. Concurrent refresh requests run in arrival order, and plugin teardown waits for accepted requests to settle after unregistering the route.
+浏览器通过回环同源 HTTP 读取这些资源：`GET /dsh-pet/catalog`、`POST /dsh-pet/refresh`，以及 `GET` 或 `HEAD /dsh-pet/assets/<opaque-id>`。每个请求必须先通过 Connection 对 Host、Origin 与 Fetch-Metadata 的信任检查，才能到达目录。响应只暴露目录元数据和图像字节，不会暴露 Codex home 文件系统路径或 ASAR 成员名。首次发现与路由注册完成后，Host 插件才会报告激活成功。并发刷新请求按到达顺序执行；插件 teardown 会先注销路由，再等待已接收的请求结束。
 
-## Model Experience
+## 模型体验
 
-None, as this package discovers and renders browser pets; nothing here reaches a model request.
+无。该包发现并渲染浏览器宠物；这里没有任何内容进入模型请求。
 
-#### KV Cache effect
+#### KV Cache 影响
 
-None; this package neither assembles nor sends a provider request.
+无；该包既不组装也不发送提供方请求。
 
-## Known Limitations and Deferred Work
+## 已知限制与暂缓事项
 
-- **The pet belongs to the DSH Web viewport.** It is not an operating-system desktop overlay, native Codex integration, tray companion, or independently floating window.
-- **Codex preset availability depends on a local Codex installation and its private archive layout.** An automatically discovered archive that no longer matches the supported layout makes affected Codex rows unavailable without affecting 小深; it does not justify copying upstream binaries into this package.
-- **Creation and distribution stay outside this package.** There is no editor, generator, upload, deep-link installer, or remote image download; prepare a Codex-compatible directory through a separate workflow and refresh this catalog.
-- **Host-local pets are loopback-only.** A DSH Web page reached through a non-loopback authority cannot read this package's catalog or atlases, even when another application route accepts that authority.
-- **Only the selected session exposes detailed failure state to this projection.** A selected foreground failure can use the failed row, while a completed background session can only use the review signal because the session list does not carry its detailed failure reason.
+- **宠物属于 DSH Web 视口。** 它不是操作系统桌面浮层、Codex 原生集成、托盘伙伴或独立浮动窗口。
+- **Codex 预设的可用性取决于本机 Codex 安装及其私有归档布局。** 自动发现的归档不再匹配受支持布局时，受影响的 Codex 条目会变为不可用，不影响小深；这不构成把上游二进制文件复制进该包的理由。
+- **创建与分发不属于该包。** 这里没有编辑器、生成器、上传、深链接安装器或远程图片下载；请通过独立工作流准备兼容 Codex 的目录，再刷新此目录。
+- **Host 本机宠物仅限回环访问。** 即使其他应用路由接受某个非回环 authority，通过该地址访问的 DSH Web 页面也不能读取该包的目录或图集。
+- **只有所选会话向该映射提供详细失败状态。** 所选前台会话失败时可使用失败行；会话列表不携带后台会话的详细失败原因，因此已完成的后台会话只能使用待查看信号。
 
-## Development
+## 开发
 
-The checked-in `lib/` files are the build used by the package exports. Source development currently uses the shared TypeScript and client-bundling presets from the DeepSeek Harness monorepo. Place this repository at `packages/client/pet` in a matching Harness checkout, then run the package tests and `pnpm --filter @deepseek-ai/dsh-pet bundle` there.
+仓库中的 `lib/` 文件是包导出实际使用的构建产物。源码开发目前依赖 DeepSeek Harness monorepo 提供的共享 TypeScript 与客户端打包预设。请把本仓库放到相匹配 Harness checkout 的 `packages/client/pet`，然后在其中运行包测试和 `pnpm --filter @deepseek-ai/dsh-pet bundle`。
 
-## License
+## 许可证
 
-Source code is available under the [MIT License](LICENSE). The bundled 小深 spritesheet is excluded; see its [asset-specific status](assets/dsh/ASSET-LICENSE.md). No Codex or OpenAI binary asset is included in this repository.
+源代码采用 [MIT 许可证](LICENSE)。内置小深图集不包含在该许可证中，参见其[资产专用状态](assets/dsh/ASSET-LICENSE.md)。本仓库不包含任何 Codex 或 OpenAI 二进制资产。
