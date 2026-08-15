@@ -2,7 +2,7 @@
 
 中文 | [English](README.en.md)
 
-> 当前仓库保持私有。源代码采用 MIT 许可证；内置的小深和阿良资产适用单独条款。参见[小深资产状态](assets/dsh/ASSET-LICENSE.md)、[阿良资产状态](assets/aliang/ASSET-LICENSE.md)和[声明](NOTICE.md)。
+许可证与第三方兼容性信息见 [LICENSE](LICENSE) 和[声明](NOTICE.md)。
 
 在 DSH Web 框架内显示宠物。该包自带始终可用的版本 2 **小深** DeepSeek 蓝鲸图集作为默认宠物，并把**阿良**作为可选的包内预设；它还会发现本机已安装的兼容 Codex 图集，提供一份不透明 Host 目录，在可拖动的浏览器浮层中渲染所选图集，并贡献**宠物**设置分区。该包不包含宠物创建器、图像生成器、上传控件或远程 URL 安装器。
 
@@ -48,7 +48,7 @@ manifest 接受 `id`、`displayName`、可为空的 `description`、`spriteVersi
 
 版本 1 图集为 1536×1872 像素；版本 2 图集为 1536×2288 像素。两者都使用八列 192×208 单元格，可采用最大 20 MiB 的静态 PNG 或 WebP；动画 PNG 与 WebP 会被拒绝。Host 只有在完整解码图像后才会接纳它。图集路径在符号链接解析前后都必须留在自己的宠物目录内。格式错误、不可读、过大、逃逸目录、截断或尺寸不兼容的宠物包会被省略，不会遮蔽有效的相邻宠物包。
 
-预设目录首先列出两个包自有的版本 2 WebP：稳定 id 为 `dsh` 的小深基于用户提供的 DeepSeek 图标生成，稳定 id 为 `aliang` 的阿良基于用户提供的肖像生成。小深仍是 settings 默认值，两个条目都始终可用。阿良图集不包含在该包的 MIT 许可证中，具体见其[资产专用声明](assets/aliang/ASSET-LICENSE.md)。
+预设目录首先列出两个包自有的版本 2 WebP：稳定 id 为 `dsh` 的小深基于用户提供的 DeepSeek 图标生成，稳定 id 为 `aliang` 的阿良基于用户提供的肖像生成。小深仍是 settings 默认值，两个条目都始终可用。
 
 目录随后列出九个 Codex 宠物身份：Codex、Dewey、Fireball、Hoots、Rocky、Seedy、Stacky、BSOD 和 Null Signal。该仓库不存储 Codex 图集，只保留其 id、标签和版本 2 布局元数据。Host 在运行时从用户本机已安装的 Codex Desktop `app.asar` 中定位 Codex 带哈希名的图集；该包不会复制、vendor 或重新分发这些 OpenAI 二进制资源。没有可兼容的本机应用归档时，小深和阿良仍然可用，九个 Codex 条目则不可用。刷新成功后，本次目录 generation 会保留已校验的预设压缩图集，避免每个浏览器图像请求再次完整解码；下次刷新会重新读取 Codex 归档。
 
@@ -66,7 +66,6 @@ manifest 接受 `id`、`displayName`、可为空的 `description`、`spriteVersi
 
 - **宠物属于 DSH Web 视口。** 它不是操作系统桌面浮层、Codex 原生集成、托盘伙伴或独立浮动窗口。
 - **Codex 预设的可用性取决于本机 Codex 安装及其私有归档布局。** 自动发现的归档不再匹配受支持布局时，受影响的 Codex 条目会变为不可用，不影响小深或阿良；这不构成把上游二进制文件复制进该包的理由。
-- **阿良适用单独的肖像资产条款。** 源代码和小深不受影响，但重新分发 `assets/aliang/spritesheet.webp` 需要其资产专用声明中说明的许可。
 - **创建与分发不属于该包。** 这里没有编辑器、生成器、上传、深链接安装器或远程图片下载；请通过独立工作流准备兼容 Codex 的目录，再刷新此目录。
 - **Host 本机宠物仅限回环访问。** 即使其他应用路由接受某个非回环 authority，通过该地址访问的 DSH Web 页面也不能读取该包的目录或图集。
 - **只有所选会话向该映射提供详细失败状态。** 所选前台会话失败时可使用失败行；会话列表不携带后台会话的详细失败原因，因此已完成的后台会话只能使用待查看信号。
@@ -77,4 +76,4 @@ manifest 接受 `id`、`displayName`、可为空的 `description`、`spriteVersi
 
 ## 许可证
 
-源代码采用 [MIT 许可证](LICENSE)。内置小深和阿良图集不包含在该许可证中，分别参见[小深资产状态](assets/dsh/ASSET-LICENSE.md)和[阿良资产状态](assets/aliang/ASSET-LICENSE.md)。本仓库不包含任何 Codex 或 OpenAI 二进制资产。
+许可证见 [LICENSE](LICENSE)，其他声明见 [NOTICE](NOTICE.md)。本仓库不包含任何 Codex 或 OpenAI 二进制资产。
