@@ -65,4 +65,3 @@ export declare function discoverCodexBuiltinAssets(ids: readonly string[], appAs
  * @returns candidate ChatGPT ASAR path.
  */
 export declare function windowsCodexAppAsarPath(localAppData: string): string;
-//# sourceMappingURL=codex-asar.d.ts.map

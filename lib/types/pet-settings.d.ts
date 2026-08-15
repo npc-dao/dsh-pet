@@ -1,5 +1,4 @@
 /** Durable preferences for the DSH Web pet surface. */
-import z from '@deepseek-ai/schemastery';
 /** Settings namespace owned by the pet plugin. */
 export declare const PET_SETTINGS_NAMESPACE = "dsh-pet";
 /** Codex's default mascot width in CSS pixels. */
@@ -19,6 +18,3 @@ export interface PetSettings {
 }
 /** Defaults used before the user settings document carries overrides. */
 export declare const DEFAULT_PET_SETTINGS: Readonly<PetSettings>;
-/** Durable pet settings schema. */
-export declare const PetSettingsSchema: z<PetSettings>;
-//# sourceMappingURL=pet-settings.d.ts.map

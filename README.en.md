@@ -12,6 +12,24 @@ The Web application bundle loads this package as one Cordis plugin. 小深 and �
 
 The pet projects DSH activity onto Codex atlas rows for idle, running, waiting for user input, selected-session failure, and completed output awaiting review. Hover and drag use the compatible jump and directional-running rows. Reduced-motion browsers hold one frame instead of cycling the atlas.
 
+## Install in DSH
+
+The current DeepSeek Harness main repository already assembles this plugin. Another checkout can install a pinned tag or commit as a Web bundle dependency:
+
+```sh
+pnpm --filter @deepseek-ai/dsh-web-app add \
+  '@deepseek-ai/dsh-pet@github:npc-dao/dsh-pet#<tag-or-commit>'
+```
+
+Then add the following row to the browser-plugin roster in the Web bundle's `cordis.patch.yml`:
+
+```yaml
+- id: dsh-pet
+  name: '@deepseek-ai/dsh-pet'
+```
+
+Run that DSH checkout's install and build commands before starting the Web profile. Pin a tag or commit instead of following a moving branch in production.
+
 ## Configuration
 
 The Cordis plugin accepts two Host resource-discovery keys:
@@ -72,7 +90,16 @@ None; this package neither assembles nor sends a provider request.
 
 ## Development
 
-The checked-in `lib/` files are the build used by the package exports. Source development currently uses the shared TypeScript and client-bundling presets from the DeepSeek Harness monorepo. Place this repository at `packages/client/pet` in a matching Harness checkout, then run the package tests and `pnpm --filter @deepseek-ai/dsh-pet bundle` there.
+Development requires Node.js 22.19 or Node.js 24 and later, plus pnpm 11. A clone can install, test, and build independently; it does not need to live inside the DeepSeek Harness monorepo:
+
+```sh
+pnpm install
+pnpm run check
+```
+
+`check` runs static analysis, strict TypeScript validation, 170 tests with a per-file 100% coverage gate, Host and Client builds, and an npm package-content dry run. DSH Web supplies the client services listed in `dsh.client.inject` at runtime; they are not hidden development dependencies of this repository. Read [CONTRIBUTING.md](CONTRIBUTING.md) before contributing.
+
+The repository commits `lib/` artifacts so a DSH checkout can assemble the plugin before a standalone plugin registry exists. Changes under `src/` must be followed by `pnpm run build`, with the corresponding artifacts committed.
 
 ## License
 

@@ -14,4 +14,3 @@ export type PetHttpRequestTrust = (request: IncomingMessage) => boolean;
  * @returns async route handler for exact and asset-prefix requests.
  */
 export declare function createPetHttpHandler(catalog: PetCatalog, isTrustedRequest: PetHttpRequestTrust): PetHttpHandler;
-//# sourceMappingURL=pet-http.d.ts.map

@@ -1,0 +1,35 @@
+name: 缺陷报告
+description: 报告可复现的运行、导入或界面问题
+title: "[Bug] "
+labels: [bug]
+body:
+  - type: textarea
+    id: summary
+    attributes:
+      label: 问题描述
+      description: 说明实际结果与预期结果。
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: dsh-pet 版本或提交
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: DSH、Node.js 与操作系统版本
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: 复现步骤
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: 日志或截图
+      description: 请先删除令牌、用户名、绝对路径及其他敏感信息。

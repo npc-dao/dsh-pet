@@ -1,8 +1,6 @@
 /** Browser catalog loader for the pet Host's same-origin HTTP surface. */
 
-import {
-  createSnapshotStore, type SnapshotStore,
-} from '@deepseek-ai/dsh-client-runtime/client'
+import { createSnapshotStore, type SnapshotStore } from './snapshot-store.ts'
 import type { PetDescriptor } from '../pet-contract.ts'
 import {
   PET_ASSET_PREFIX, PET_CATALOG_ENDPOINT, PET_REFRESH_ENDPOINT,
@@ -97,7 +95,7 @@ export class PetCatalogController {
     this.requestGeneration += 1
     this.active?.abort()
     this.active = undefined
-    this.disposal = Promise.all([...this.pending]).then(() => {})
+    this.disposal = Promise.all(this.pending).then(() => {})
     return this.disposal
   }
 

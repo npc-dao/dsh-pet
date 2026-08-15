@@ -21,4 +21,3 @@ export declare function petAssetPath(id: string): string;
  * @returns cache-busting URL tied to that generation.
  */
 export declare function petAssetUrl(path: string, revision: number): string;
-//# sourceMappingURL=pet-endpoints.d.ts.map

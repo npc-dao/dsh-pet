@@ -71,4 +71,3 @@ export declare class PetCatalog {
  * @returns initialized catalog whose first snapshot has revision 1.
  */
 export declare function createPetCatalog(options?: PetCatalogOptions): Promise<PetCatalog>;
-//# sourceMappingURL=pet-catalog.d.ts.map

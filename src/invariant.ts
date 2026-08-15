@@ -5,7 +5,7 @@
 
 /* jscpd:ignore-start */
 import type { Context } from '@deepseek-ai/cordis'
-import type { InvariantInstaller } from '@deepseek-ai/dsh-invariants'
+import type { InvariantRegistry } from './host-types.ts'
 
 const PACKAGE_NAME = '@deepseek-ai/dsh-pet'
 
@@ -20,7 +20,7 @@ export const inject = ['invariants']
  * registration and animation teardown are proven by Client specs. The plugin
  * owns no cross-plugin mutable relationship an invariant can inspect.
  */
-const install: InvariantInstaller = () => {}
+const install = (): void => {}
 
 /**
  * Register this package's invariant companion.
@@ -28,5 +28,8 @@ const install: InvariantInstaller = () => {}
  * @returns the installed registration's disposer after setup succeeds.
  */
 export const apply = (ctx: Context): Promise<() => void> =>
-  Promise.resolve(ctx.invariants.register(PACKAGE_NAME, install))
+  Promise.resolve((ctx as Context & { invariants: InvariantRegistry }).invariants.register(
+    PACKAGE_NAME,
+    install,
+  ))
 /* jscpd:ignore-end */

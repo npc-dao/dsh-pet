@@ -40,4 +40,3 @@ export declare function getPetAnimationSequence(state: PetAnimationState, reduce
  * @returns horizontal and vertical background-position percentages.
  */
 export declare function petFrameBackgroundPosition(frame: Pick<PetAnimationFrame, 'columnIndex' | 'rowIndex'>, spriteVersion: PetSpriteVersion): string;
-//# sourceMappingURL=pet-animation.d.ts.map

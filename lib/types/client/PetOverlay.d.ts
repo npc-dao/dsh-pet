@@ -18,4 +18,3 @@ export interface PetOverlayProps {
  * @returns the draggable overlay surface.
  */
 export declare function PetOverlay({ descriptor, state, size, reducedMotion, }: PetOverlayProps): ReactNode;
-//# sourceMappingURL=PetOverlay.d.ts.map

@@ -2,14 +2,11 @@ import type { IncomingMessage, ServerResponse } from 'node:http'
 import { homedir } from 'node:os'
 import { join } from 'node:path'
 import { Context } from '@deepseek-ai/cordis'
-import type { HostConnectionHandle } from '@deepseek-ai/dsh-client-connection/types'
-import type { WebRoute, WebServer } from '@deepseek-ai/dsh-host-webserver'
-import {
-  SettingsProvider,
-  settingsNamespace,
-  type SettingsNamespace,
+import SettingsProvider, {
+  settingsNamespace, type SettingsNamespace,
 } from '@deepseek-ai/dsh-settings'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
+import type { HostConnectionHandle, WebRoute, WebServer } from '../src/host-types.ts'
 
 const catalog = vi.hoisted(() => ({
   list: vi.fn(() => ({ revision: 1, pets: [] })),

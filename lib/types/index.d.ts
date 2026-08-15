@@ -25,4 +25,3 @@ export declare const inject: string[];
  * @returns activation completion after the first catalog generation is ready.
  */
 export declare function apply(ctx: Context, config?: Config): Promise<void>;
-//# sourceMappingURL=index.d.ts.map

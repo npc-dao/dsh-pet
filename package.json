@@ -3,10 +3,20 @@
   "description": "DSH Web pet with a bundled default and Codex-compatible imports",
   "version": "0.1.0-rc.5",
   "private": true,
+  "packageManager": "pnpm@11.7.0",
+  "engines": {
+    "node": "^22.19.0 || >=24.0.0"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/npc-dao/dsh-pet.git"
   },
+  "keywords": [
+    "dsh-plugin",
+    "deepseek-harness",
+    "web-pet",
+    "codex-pet"
+  ],
   "homepage": "https://github.com/npc-dao/dsh-pet#readme",
   "bugs": {
     "url": "https://github.com/npc-dao/dsh-pet/issues"
@@ -45,46 +55,42 @@
     }
   },
   "scripts": {
-    "bundle": "tsdown",
+    "build": "rimraf lib && tsc -p tsconfig.build.json && tsdown",
+    "bundle": "npm run build",
+    "check": "npm run lint && npm run typecheck && npm run test:coverage && npm run build && npm run pack:check",
+    "lint": "oxlint src tests tsdown.config.ts vitest.config.ts",
+    "pack:check": "npm pack --dry-run",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
     "watch": "tsdown --watch"
   },
   "license": "SEE LICENSE IN LICENSE",
   "peerDependencies": {
-    "@deepseek-ai/cordis": "workspace:^",
-    "@deepseek-ai/dsh-api-remotes": "workspace:^",
-    "@deepseek-ai/dsh-client-connection": "workspace:^",
-    "@deepseek-ai/dsh-client-locale": "workspace:^",
-    "@deepseek-ai/dsh-client-runtime": "workspace:^",
-    "@deepseek-ai/dsh-client-ui-layout": "workspace:^",
-    "@deepseek-ai/dsh-client-ui-primitives": "workspace:^",
-    "@deepseek-ai/dsh-client-ui-settings": "workspace:^",
-    "@deepseek-ai/dsh-client-ui-slots": "workspace:^",
-    "@deepseek-ai/dsh-host-webserver": "workspace:^",
-    "@deepseek-ai/dsh-invariants": "workspace:^",
+    "@deepseek-ai/cordis": "^4.0.1",
     "react": "^18.2.0"
   },
   "devDependencies": {
-    "@deepseek-ai/cordis": "workspace:^",
-    "@deepseek-ai/dsh-api-remotes": "workspace:^",
-    "@deepseek-ai/dsh-client-connection": "workspace:^",
-    "@deepseek-ai/dsh-client-locale": "workspace:^",
-    "@deepseek-ai/dsh-client-runtime": "workspace:^",
-    "@deepseek-ai/dsh-client-test-runtime": "workspace:^",
-    "@deepseek-ai/dsh-client-ui-layout": "workspace:^",
-    "@deepseek-ai/dsh-client-ui-primitives": "workspace:^",
-    "@deepseek-ai/dsh-client-ui-settings": "workspace:^",
-    "@deepseek-ai/dsh-client-ui-slots": "workspace:^",
-    "@deepseek-ai/dsh-host-webserver": "workspace:^",
-    "@deepseek-ai/dsh-invariants": "workspace:^",
+    "@deepseek-ai/cordis": "^4.0.1",
     "@testing-library/react": "^16.1.0",
+    "@types/node": "^22.20.0",
     "@types/react": "~18.3.1",
+    "@types/react-dom": "~18.3.1",
+    "@vitest/coverage-v8": "^4.1.8",
+    "jsdom": "29.1.1",
+    "lightningcss": "^1.32.0",
+    "oxlint": "1.76.0",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "rimraf": "^6.0.1",
+    "tsdown": "^0.22.2",
+    "typescript": "^6.0.3",
+    "vitest": "^4.1.8"
   },
   "dependencies": {
-    "@deepseek-ai/dsh-home-paths": "workspace:^",
-    "@deepseek-ai/dsh-settings": "workspace:^",
-    "@deepseek-ai/schemastery": "workspace:^",
+    "@deepseek-ai/dsh-home-paths": "^0.0.1-rc.3",
+    "@deepseek-ai/dsh-settings": "^0.0.1-rc.1",
+    "@deepseek-ai/schemastery": "^3.18.1",
     "sharp": "^0.35.3"
   },
   "files": [

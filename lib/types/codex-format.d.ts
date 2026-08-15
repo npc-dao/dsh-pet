@@ -80,4 +80,3 @@ export declare function scanCodexPets(codexHome: string): Promise<readonly Codex
  * @returns current validated bytes and content hash.
  */
 export declare function readCodexPetAsset(pet: CodexCustomPet): Promise<CodexPetAsset>;
-//# sourceMappingURL=codex-format.d.ts.map

@@ -20,4 +20,3 @@ export interface PetSpriteProps {
  * @returns an assistive-technology-hidden sprite span.
  */
 export declare function PetSprite({ assetUrl, version, state, reducedMotion, hover, }: PetSpriteProps): ReactNode;
-//# sourceMappingURL=PetSprite.d.ts.map

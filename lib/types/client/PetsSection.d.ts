@@ -35,4 +35,3 @@ export interface PetsSectionProps {
  * @returns the complete pet settings section; pet creation is intentionally absent.
  */
 export declare function PetsSection({ catalog, status, error, writable, enabled, selectedId, size, refresh, select, setEnabled, setSize, t, }: PetsSectionProps): ReactNode;
-//# sourceMappingURL=PetsSection.d.ts.map

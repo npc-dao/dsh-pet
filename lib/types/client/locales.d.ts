@@ -65,4 +65,3 @@ export declare const en: {
  * @returns localized text with the placeholder replaced.
  */
 export declare function petLocaleValue(template: string, name: 'pet' | 'size', value: string): string;
-//# sourceMappingURL=locales.d.ts.map

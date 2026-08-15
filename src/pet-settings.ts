@@ -1,7 +1,5 @@
 /** Durable preferences for the DSH Web pet surface. */
 
-import z from '@deepseek-ai/schemastery'
-
 /** Settings namespace owned by the pet plugin. */
 export const PET_SETTINGS_NAMESPACE = 'dsh-pet'
 
@@ -29,11 +27,4 @@ export const DEFAULT_PET_SETTINGS: Readonly<PetSettings> = Object.freeze({
   enabled: true,
   selectedId: 'dsh',
   size: DEFAULT_PET_SIZE,
-})
-
-/** Durable pet settings schema. */
-export const PetSettingsSchema: z<PetSettings> = z.object({
-  enabled: z.boolean().default(DEFAULT_PET_SETTINGS.enabled),
-  selectedId: z.string().min(1).max(512).default(DEFAULT_PET_SETTINGS.selectedId),
-  size: z.natural().min(MIN_PET_SIZE).max(MAX_PET_SIZE).default(DEFAULT_PET_SETTINGS.size),
 })

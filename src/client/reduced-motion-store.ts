@@ -1,8 +1,6 @@
 /** Browser motion-preference observable for the pet renderer. */
 
-import {
-  createSnapshotStore, type SnapshotStore,
-} from '@deepseek-ai/dsh-client-runtime/client'
+import { createSnapshotStore, type SnapshotStore } from './snapshot-store.ts'
 
 /** Media query used for the Web platform's reduced-motion preference. */
 export const REDUCED_MOTION_QUERY = '(prefers-reduced-motion: reduce)'

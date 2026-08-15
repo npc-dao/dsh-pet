@@ -1,12 +1,10 @@
 /** Root overlay entry that declares the current-session-aware pet seat. */
 
 import type { ReactNode } from 'react'
-import type { PropsRenderSlots, PropsRuntime } from '@deepseek-ai/dsh-client-ui-slots'
+import type { PetOverlayRootRuntimeProps } from './runtime-types.ts'
 
 /** Full props for the root-scoped overlay declaration entry. */
-export type PetOverlayRootProps =
-  PropsRuntime<'shell.overlay'>
-  & PropsRenderSlots<'shell.overlay.pet'>
+export type PetOverlayRootProps = PetOverlayRootRuntimeProps
 
 /**
  * Render the session-maybe child seat at the frame-wide overlay position.

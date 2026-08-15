@@ -12,6 +12,24 @@ Web 应用组合包将该包作为一个 Cordis 插件加载。小深和阿良�
 
 宠物把 DSH 活动映射到 Codex 图集中的空闲、运行、等待用户输入、所选会话失败和已完成输出待查看等行。悬停和拖动使用兼容的跳跃与左右奔跑行。浏览器要求减少动态效果时，宠物会停在一帧，而不循环播放图集。
 
+## 安装到 DSH
+
+当前 DeepSeek Harness 主仓库已直接装配该插件。其他 checkout 可把一个确定的 tag 或提交作为 Web bundle 依赖安装：
+
+```sh
+pnpm --filter @deepseek-ai/dsh-web-app add \
+  '@deepseek-ai/dsh-pet@github:npc-dao/dsh-pet#<tag-or-commit>'
+```
+
+然后在 Web bundle 的 `cordis.patch.yml` 浏览器插件 roster 中加入：
+
+```yaml
+- id: dsh-pet
+  name: '@deepseek-ai/dsh-pet'
+```
+
+重新执行该 DSH checkout 的安装与构建命令后启动 Web profile。建议固定 tag 或提交，不要让生产环境跟随浮动分支。
+
 ## 配置
 
 该 Cordis 插件接受两个 Host 资源发现配置键：
@@ -72,7 +90,16 @@ manifest 接受 `id`、`displayName`、可为空的 `description`、`spriteVersi
 
 ## 开发
 
-仓库中的 `lib/` 文件是包导出实际使用的构建产物。源码开发目前依赖 DeepSeek Harness monorepo 提供的共享 TypeScript 与客户端打包预设。请把本仓库放到相匹配 Harness checkout 的 `packages/client/pet`，然后在其中运行包测试和 `pnpm --filter @deepseek-ai/dsh-pet bundle`。
+需要 Node.js 22.19 或 24 及以上版本，以及 pnpm 11。克隆后可直接在独立仓库安装、测试和构建，无需放入 DeepSeek Harness monorepo：
+
+```sh
+pnpm install
+pnpm run check
+```
+
+`check` 会依次执行静态检查、严格 TypeScript 检查、170 项测试与逐文件 100% 覆盖率门禁、Host/Client 双端构建，以及 npm 包内容预检。DSH Web 在运行时提供 `dsh.client.inject` 列出的客户端服务；它们不是本仓库开发环境的隐式依赖。提交贡献前请阅读 [CONTRIBUTING.md](CONTRIBUTING.md)。
+
+仓库提交 `lib/` 构建产物，供尚未建立独立插件发布注册表的 DSH checkout 直接装配。修改 `src/` 后必须重新运行 `pnpm run build` 并提交对应产物。
 
 ## 许可证
 

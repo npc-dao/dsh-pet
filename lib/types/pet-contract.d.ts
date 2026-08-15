@@ -233,4 +233,3 @@ export interface PetCatalogSnapshot {
     /** Monotonic in-process scan revision. */
     readonly revision: number;
 }
-//# sourceMappingURL=pet-contract.d.ts.map

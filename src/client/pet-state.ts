@@ -1,8 +1,6 @@
 /** Pure runtime-state projection for the Web pet. */
 
-import type {
-  ConversationSnapshot, SessionListState,
-} from '@deepseek-ai/dsh-client-runtime/client'
+import type { ConversationSnapshot, SessionListState } from './runtime-types.ts'
 import type { PetState } from '../pet-contract.ts'
 
 /** Current session signals used to select one task animation. */

@@ -1,17 +1,17 @@
 /** Host registration for the DSH pet catalog, Codex-compatible imports, and Web asset routes. */
 
 import type { Context } from '@deepseek-ai/cordis'
-import type { HostConnectionHandle } from '@deepseek-ai/dsh-client-connection/types'
-import type {} from '@deepseek-ai/dsh-host-webserver'
 import { expandHomePath } from '@deepseek-ai/dsh-home-paths'
 import { settingsNamespace } from '@deepseek-ai/dsh-settings'
 import z from '@deepseek-ai/schemastery'
 import { createPetCatalog } from './pet-catalog.ts'
 import { PET_HTTP_PREFIX } from './pet-endpoints.ts'
 import { createPetHttpHandler } from './pet-http.ts'
+import type { HostConnectionHandle, WebServer } from './host-types.ts'
 import {
-  PET_SETTINGS_NAMESPACE, PetSettingsSchema,
+  PET_SETTINGS_NAMESPACE,
 } from './pet-settings.ts'
+import { PetSettingsSchema } from './pet-settings-schema.ts'
 
 export {
   ALIANG_BUILTIN_PET,
@@ -72,7 +72,12 @@ export const inject = ['connection', 'settings', 'webServer']
  * @returns activation completion after the first catalog generation is ready.
  */
 export async function apply(ctx: Context, config: Config = {}): Promise<void> {
-  ctx.settings.register(
+  const host = ctx as Context & {
+    readonly connection: HostConnectionHandle
+    readonly settings: Context['settings']
+    readonly webServer: WebServer
+  }
+  host.settings.register(
     settingsNamespace(PET_SETTINGS_NAMESPACE),
     PetSettingsSchema,
   )
@@ -82,7 +87,7 @@ export async function apply(ctx: Context, config: Config = {}): Promise<void> {
     ...(codexHome === undefined || codexHome === '' ? {} : { codexHome: expandHomePath(codexHome) }),
     ...(appAsarPath === undefined || appAsarPath === '' ? {} : { appAsarPath: expandHomePath(appAsarPath) }),
   })
-  const connection = (ctx as Context & { readonly connection: HostConnectionHandle }).connection
+  const connection = host.connection
   const handler = createPetHttpHandler(
     catalog,
     request => connection.isTrustedRequest(request, 'loopback'),
@@ -95,14 +100,14 @@ export async function apply(ctx: Context, config: Config = {}): Promise<void> {
       pending.add(tracked)
       return tracked
     }
-    const unregister = ctx.webServer.register({
+    const unregister = host.webServer.register({
       kind: 'prefix',
       path: PET_HTTP_PREFIX,
       handler: trackedHandler,
     })
     return async () => {
       unregister()
-      await Promise.allSettled([...pending])
+      await Promise.allSettled(pending)
     }
   }, 'dsh-pet: catalog and atlas routes')
 }

@@ -1,17 +1,12 @@
 /** Browser registration for the DSH Web pet and its settings page. */
 
-import type { ClientContext } from '@deepseek-ai/dsh-client-runtime/client'
-// Type-only: service and SlotMap merges; runtime collaboration stays on ctx.
-import type {} from '@deepseek-ai/dsh-client-locale/client'
-import type {} from '@deepseek-ai/dsh-client-ui-layout/client'
-import type {} from '@deepseek-ai/dsh-client-ui-settings/client'
-import type {} from '@deepseek-ai/dsh-api-remotes/client'
 import { PetCatalogController } from './catalog-store.ts'
 import { en, NS, zh, type PetKey } from './locales.ts'
 import { PetOverlayRoot } from './PetOverlayRoot.tsx'
 import { PetOverlaySlot, type PetOverlaySlotInjected } from './PetOverlaySlot.tsx'
 import { PetsSettingsSlot, type PetsSettingsSlotInjected } from './PetsSettingsSlot.tsx'
 import { createReducedMotionStore } from './reduced-motion-store.ts'
+import type { ClientContext } from './runtime-types.ts'
 import {
   PET_SETTINGS_NAMESPACE, type PetSettings,
 } from '../pet-settings.ts'

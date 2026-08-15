@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import type {
   ConversationSnapshot, SessionListState, SessionSummary,
-} from '@deepseek-ai/dsh-client-runtime/client'
+} from '../src/client/runtime-types.ts'
 import { derivePetState, petStateSignals } from '../src/client/pet-state.ts'
 
 const sid = (id: string): never => id as never

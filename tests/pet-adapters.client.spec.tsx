@@ -4,7 +4,7 @@ import { cleanup, fireEvent, render, screen } from '@testing-library/react'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import type {
   ConversationSnapshot, SessionListState, SessionSummary, SettingsScopeSnapshot,
-} from '@deepseek-ai/dsh-client-runtime/client'
+} from '../src/client/runtime-types.ts'
 import type { PetOverlayProps } from '../src/client/PetOverlay.tsx'
 import type { PetsSectionProps } from '../src/client/PetsSection.tsx'
 

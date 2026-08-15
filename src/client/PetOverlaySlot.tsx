@@ -1,16 +1,16 @@
 /** Session-aware adapter from DSH snapshots and durable settings to the pet overlay. */
 
 import type { ReactNode } from 'react'
-import type {
-  SettingsScopeSnapshot, SnapshotStore,
-} from '@deepseek-ai/dsh-client-runtime/client'
-import type { HostObservable, InjectFace, PropsRuntime } from '@deepseek-ai/dsh-client-ui-slots'
 import { petAssetUrl } from '../pet-endpoints.ts'
 import { DEFAULT_PET_SETTINGS, type PetSettings } from '../pet-settings.ts'
 import type { PetCatalogState } from './catalog-store.ts'
 import { resolveSelectedPet } from './catalog-store.ts'
 import { PetOverlay } from './PetOverlay.tsx'
 import { derivePetState, petStateSignals } from './pet-state.ts'
+import type {
+  ConversationSnapshot, Observable, SelectorHook, SessionListState, SettingsScopeSnapshot,
+} from './runtime-types.ts'
+import type { SnapshotStore } from './snapshot-store.ts'
 
 /** Registration-side observable inputs for the overlay entry. */
 export interface PetOverlaySlotInjected {
@@ -18,16 +18,20 @@ export interface PetOverlaySlotInjected {
     /** Host catalog transport state. */
     petCatalog: SnapshotStore<PetCatalogState>
     /** Durable namespace state. */
-    petSettings: HostObservable<SettingsScopeSnapshot<PetSettings>>
+    petSettings: Observable<SettingsScopeSnapshot<PetSettings>>
     /** Browser motion preference. */
     reducedMotion: SnapshotStore<boolean>
   }
 }
 
 /** Full component props synthesized by the session-maybe slot outlet. */
-export type PetOverlaySlotProps =
-  PropsRuntime<'shell.overlay.pet'>
-  & InjectFace<PetOverlaySlotInjected>
+export interface PetOverlaySlotProps {
+  usePetCatalog: SelectorHook<PetCatalogState>
+  usePetSettings: SelectorHook<SettingsScopeSnapshot<PetSettings>>
+  useReducedMotion: SelectorHook<boolean>
+  useSession: SelectorHook<ConversationSnapshot | undefined>
+  useSessions: SelectorHook<SessionListState>
+}
 
 /**
  * Select the effective available pet and render it over the Web frame.

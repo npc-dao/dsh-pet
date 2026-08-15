@@ -1,5 +1,5 @@
 /** Browser catalog loader for the pet Host's same-origin HTTP surface. */
-import { type SnapshotStore } from '@deepseek-ai/dsh-client-runtime/client';
+import { type SnapshotStore } from './snapshot-store.ts';
 import type { PetDescriptor } from '../pet-contract.ts';
 /** Browser catalog lifecycle state. */
 export interface PetCatalogState {
@@ -60,4 +60,3 @@ export declare class PetCatalogController {
     private request;
     private runRequest;
 }
-//# sourceMappingURL=catalog-store.d.ts.map
