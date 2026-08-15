@@ -1,4 +1,4 @@
-# @deepseek-ai/dsh-pet
+# dsh-pet
 
 English | [中文](README.md)
 
